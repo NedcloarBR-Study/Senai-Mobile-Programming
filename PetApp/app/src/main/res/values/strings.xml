@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PetApp</string>
+    <string name="title_listagem_pet">Listagem de Pets</string>
+    <string name="teste">Teste</string>
 </resources>

@@ -19,9 +19,7 @@ public class AtualizarPetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atualizar_pet);
         setTitle("Atualizar Pet");
-        listapet =
-                (ArrayList<Pet>) getIntent()
-                        .getSerializableExtra("lista_pet");
+        listapet = (ArrayList<Pet>) getIntent().getSerializableExtra("lista_pet");
         Log.i("pet", "Carregado Atualizar Pet com sucesso");
     }
 }
