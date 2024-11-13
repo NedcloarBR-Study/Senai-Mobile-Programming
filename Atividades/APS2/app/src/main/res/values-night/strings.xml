@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_title">Realizar Login</string>
+    <string name="cadastro_title">Criar Conta</string>
+    <string name="invalid_amount">Valor inválido!</string>
+</resources>

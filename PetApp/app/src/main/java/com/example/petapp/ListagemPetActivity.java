@@ -1,44 +1,29 @@
 package com.example.petapp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class ListagemPetActivity extends AppCompatActivity {
-    ArrayList<Pet> listapet ;
+    private final RepositorioPet repositorioPet = new RepositorioPet(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listagem_pet);
         setTitle(R.string.title_listagem_pet);
-        listapet = (ArrayList<Pet>) getIntent().getSerializableExtra("lista_pet");
-        Log.i("pet", "Carregado Listagem Pet com sucesso");
-
-        for(Pet pet : DadosCompartilhados.lista){
-            Log.i("pet", "Nome pet: "+ pet.nome);
-            Log.i("pet", "Idade pet: "+ pet.idade);
-            Log.i("pet", "------------------------");
-        }
 
         ListView listView = findViewById(R.id.listviewpet);
-        String[] dados = new String[DadosCompartilhados.lista.size()];
-        for(int i=0; i < DadosCompartilhados.lista.size();i++){
-            Pet pet = DadosCompartilhados.lista.get(i);
+        List<Pet> listaDB = this.repositorioPet.listarPet();
+        String[] dados = new String[listaDB.size()];
+        for(int i = 0; i < listaDB.size(); i++){
+            Pet pet = listaDB.get(i);
             dados[i] = pet.nome + " - "  +pet.idade;
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dados);
 
         listView.setAdapter(adapter);
-
     }
 }

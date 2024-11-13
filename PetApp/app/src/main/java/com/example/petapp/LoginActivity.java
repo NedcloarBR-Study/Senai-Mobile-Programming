@@ -31,8 +31,6 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("pet",texto);
     }
 
-
-
     public void logar(View view) {
         EditText login = findViewById(R.id.editTextLogin);
         EditText senha = findViewById(R.id.editTextSenha);
@@ -52,20 +50,16 @@ public class LoginActivity extends AppCompatActivity {
 
         List<String> listaLogin = Arrays.asList("admin", "marcelo", "pedro", "maria", "joao", "jose", "ines");
 
-        if(listaLogin.contains(conteudoLogin) && conteudoSenha.equals("123")){
-            Bundle bundle = new Bundle();
-            bundle.putString("login",conteudoLogin);
-            Intent intent = new Intent(this,DashBoardActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-        }else{
+        if(!listaLogin.contains(conteudoLogin) && !conteudoSenha.equals("123")){
             Toast.makeText(this, "Usuario ou senha inválida", Toast.LENGTH_SHORT).show();
             return;
         }
 
-
-
-
+        DadosCompartilhados.usuarioLogado = conteudoLogin;
+        Bundle bundle = new Bundle();
+        bundle.putString("login",conteudoLogin);
+        Intent intent = new Intent(this,DashBoardActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

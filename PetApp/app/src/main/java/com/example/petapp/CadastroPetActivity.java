@@ -1,19 +1,17 @@
 package com.example.petapp;
 
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Date;
 
 
 public class CadastroPetActivity extends AppCompatActivity {
-    RepositorioPet repositorioPet;
-    RepositorioLog repositorioLog;
+    private final RepositorioPet repositorioPet = new RepositorioPet(this);
+    private final RepositorioLog repositorioLog = new RepositorioLog(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +19,6 @@ public class CadastroPetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro_pet);
         setTitle("Cadastro Pet");
         Log.i("pet", "Carregado Cadastro Pet com sucesso");
-        this.repositorioPet = new RepositorioPet(this);
-        this.repositorioLog = new RepositorioLog(this);
     }
 
     public void cadastrar(View view){
@@ -42,7 +38,7 @@ public class CadastroPetActivity extends AppCompatActivity {
         log.data = new Date().toString();
         log.operacao = "cadastro pet";
         log.usuario = DadosCompartilhados.usuarioLogado;
-        repositorioLog.logar(log);
+        this.repositorioLog.logar(log);
         Toast.makeText(this,"Cadastro realizado com sucesso.", Toast.LENGTH_LONG).show();
         editTextNome.setText("");
         editTextIdade.setText("");

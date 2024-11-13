@@ -14,11 +14,11 @@ public class RepositorioLog extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql ="create table log " +
-                "(id integer not null primary key," +
-                "data text," +
-                "operacao text," +
-                "usuario text)";
+        String sql ="CREATE TABLE log " +
+                "(id INTEGER NOT NULL PRIMARY KEY," +
+                "data TEXT," +
+                "operacao TEXT," +
+                "usuario TEXT)";
         sqLiteDatabase.execSQL(sql);
 
     }
@@ -29,12 +29,9 @@ public class RepositorioLog extends SQLiteOpenHelper {
     }
 
     public void logar(Log log){
-        String sql = "insert into log values(null," +
-                "'" + log.data + "'," +
-                "'" + log.operacao + "'," +
-                "'" + log.usuario + "')";
+        String sql = "INSERT INTO log (data, operacao, usuario) VALUES (?, ?, ?, ?)";
 
-        super.getWritableDatabase().execSQL(sql);
+        super.getWritableDatabase().execSQL(sql, new String[]{log.data, log.operacao, log.usuario});
         android.util.Log.i("pet","SQL insert log: " + sql);
     }
 
