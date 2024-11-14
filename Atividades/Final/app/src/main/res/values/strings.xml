@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Pix</string>
+    <string name="conta_title">Conta</string>
+    <string name="pix_title">Pix</string>
+    <string name="valor_operacao">Digite o valor e Clique na Operação Desejada (Deposito/Retirar)</string>
+    <string name="extrato_title">Extrato</string>
+    <string name="saldo">Saldo: R$ %s</string>
+</resources>
