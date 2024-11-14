@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Date;
+
 public class ContaActivity extends AppCompatActivity {
     private final ContaRepository contaRepository = new ContaRepository(this);
+    private final TransacoesRepository transacoesRepository = new TransacoesRepository(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +27,26 @@ public class ContaActivity extends AppCompatActivity {
 
     public void onDeposit(View view) {
         EditText valorOperacoView = findViewById(R.id.valor);
-        this.contaRepository.depositar(valorOperacoView.getText().toString());
+        String valorOperacaoString = valorOperacoView.getText().toString();
+        if(!this.validarValor(valorOperacaoString)) return;
+        this.contaRepository.depositar(valorOperacaoString);
+        this.transacoesRepository.criarTransacao("Depósito", valorOperacaoString, new Date().toString());
         this.updateSaldo();
     }
 
     public void onWithdraw(View view) {
         EditText valorOperacoView = findViewById(R.id.valor);
-        this.contaRepository.retirar(valorOperacoView.getText().toString());
+        String valorOperacaoString = valorOperacoView.getText().toString();
+        Double saldoAtual = this.contaRepository.getSaldo();
+
+        if(!this.validarValor(valorOperacaoString)) return;
+
+        if(saldoAtual < Double.parseDouble(valorOperacaoString)) {
+            Toast.makeText(this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        this.contaRepository.retirar(valorOperacaoString);
+        this.transacoesRepository.criarTransacao("Retirada", valorOperacaoString, new Date().toString());
         this.updateSaldo();
     }
 
@@ -49,4 +66,11 @@ public class ContaActivity extends AppCompatActivity {
         saldoView.setText(saldoFormatado);
     }
 
+    public boolean validarValor(String valor) {
+        if(valor.isEmpty() || Double.parseDouble(valor) <= 0) {
+            Toast.makeText(this, "Valor inválido", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 }
