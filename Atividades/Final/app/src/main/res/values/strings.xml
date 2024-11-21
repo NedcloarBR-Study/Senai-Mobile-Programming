@@ -4,5 +4,5 @@
     <string name="pix_title">Pix</string>
     <string name="valor_operacao">Digite o valor para Depositar ou Retirar</string>
     <string name="extrato_title">Extrato</string>
-    <string name="saldo">Saldo: R$ %s</string>
+    <string name="saldo">Saldo: R$ %.2f</string>
 </resources>

@@ -38,10 +38,11 @@ public class TransacoesRepository extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "tipo TEXT," +
                 "valor REAL," +
-                "data TEXT" +
+                "data TEXT," +
                 "conta_id INTEGER," +
                 "FOREIGN KEY(conta_id) REFERENCES conta(id)" +
                 ")";
+        sqLiteDatabase.execSQL(sql);
     }
 
     @Override

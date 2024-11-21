@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Date;
@@ -19,7 +17,6 @@ public class ContaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_conta);
         setTitle(R.string.conta_title);
         this.updateSaldo();
@@ -28,15 +25,17 @@ public class ContaActivity extends AppCompatActivity {
     public void onDeposit(View view) {
         EditText valorOperacoView = findViewById(R.id.valor);
         String valorOperacaoString = valorOperacoView.getText().toString();
+        valorOperacoView.setText("");
         if(!this.validarValor(valorOperacaoString)) return;
         this.contaRepository.depositar(valorOperacaoString);
-        this.transacoesRepository.criarTransacao("Depósito", valorOperacaoString, new Date().toString());
+        this.transacoesRepository.criarTransacao("DEPOSITO", valorOperacaoString, new Date().toString());
         this.updateSaldo();
     }
 
     public void onWithdraw(View view) {
         EditText valorOperacoView = findViewById(R.id.valor);
         String valorOperacaoString = valorOperacoView.getText().toString();
+        valorOperacoView.setText("");
         Double saldoAtual = this.contaRepository.getSaldo();
 
         if(!this.validarValor(valorOperacaoString)) return;
@@ -46,7 +45,7 @@ public class ContaActivity extends AppCompatActivity {
             return;
         }
         this.contaRepository.retirar(valorOperacaoString);
-        this.transacoesRepository.criarTransacao("Retirada", valorOperacaoString, new Date().toString());
+        this.transacoesRepository.criarTransacao("RETIRADA", valorOperacaoString, new Date().toString());
         this.updateSaldo();
     }
 
@@ -62,7 +61,7 @@ public class ContaActivity extends AppCompatActivity {
 
     public void updateSaldo() {
         TextView saldoView = findViewById(R.id.saldo);
-        String saldoFormatado = String.format(getString(R.string.saldo), this.contaRepository.getSaldo().toString());
+        String saldoFormatado = String.format(getString(R.string.saldo), this.contaRepository.getSaldo());
         saldoView.setText(saldoFormatado);
     }
 

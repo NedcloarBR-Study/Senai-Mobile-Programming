@@ -1,13 +1,9 @@
 package com.example.pix;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
@@ -19,7 +15,6 @@ public class ExtratoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_extrato);
         setTitle(R.string.extrato_title);
         ListView listView = findViewById(R.id.extrato_list);

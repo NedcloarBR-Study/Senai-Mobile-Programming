@@ -8,15 +8,13 @@
     tools:context=".ContaActivity">
 
     <LinearLayout
-        android:layout_width="403dp"
-        android:layout_height="720dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="7dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/saldo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Saldo: R$ 0,00"
             android:textSize="24sp" />
@@ -57,5 +55,7 @@
             android:layout_height="wrap_content"
             android:onClick="onPix"
             android:text="Pix" />
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
