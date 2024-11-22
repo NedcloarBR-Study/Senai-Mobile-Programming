@@ -5,4 +5,8 @@
     <string name="valor_operacao">Digite o valor para Depositar ou Retirar</string>
     <string name="extrato_title">Extrato</string>
     <string name="saldo">Saldo: R$ %.2f</string>
+    <string-array name="tipos_chave_pix">
+        <item>Telefone</item>
+        <item>CPF</item>
+    </string-array>
 </resources>

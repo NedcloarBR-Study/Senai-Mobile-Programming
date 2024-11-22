@@ -49,6 +49,8 @@ public class ContaRepository extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+        String sql = "DROP TABLE IF EXISTS conta";
+        sqLiteDatabase.execSQL(sql);
+        this.onCreate(sqLiteDatabase);
     }
 }

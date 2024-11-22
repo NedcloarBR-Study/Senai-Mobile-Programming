@@ -7,4 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".PixActivity">
 
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <Button
+            android:id="@+id/cadastrar_chave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cadastrar Chave"
+            android:onClick="cadastrarChave"/>
+
+        <Button
+            android:id="@+id/enviar_pix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Transação"
+            android:onClick="enviarPix"/>
+
+        <ListView
+            android:id="@+id/lista_chaves"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

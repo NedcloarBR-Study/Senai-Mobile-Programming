@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/input_chave_destino"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Chave PIX do destinatário"
+        android:inputType="text"
+        android:maxLines="1"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/input_valor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor a enviar (R$)"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

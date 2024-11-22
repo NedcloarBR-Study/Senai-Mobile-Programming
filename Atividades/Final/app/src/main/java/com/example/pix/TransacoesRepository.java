@@ -1,11 +1,13 @@
 package com.example.pix;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TransacoesRepository extends SQLiteOpenHelper {
@@ -14,8 +16,12 @@ public class TransacoesRepository extends SQLiteOpenHelper {
     }
 
     public void criarTransacao(String tipo, String valor, String data) {
-        String sql = "INSERT INTO transacoes (tipo, valor, data, conta_id) VALUES (?, ?, ?, 1)";
-        super.getWritableDatabase().execSQL(sql, new Object[]{tipo, valor, data});
+        ContentValues values = new ContentValues();
+        values.put("tipo", tipo);
+        values.put("valor", valor);
+        values.put("data", data);
+        values.put("conta_id", 1);
+        super.getWritableDatabase().insert("transacoes", null, values);
     }
 
     public List<TransacoesEntity> getTransacoes() {
@@ -30,6 +36,16 @@ public class TransacoesRepository extends SQLiteOpenHelper {
         }
         cursor.close();
         return lista;
+    }
+
+    public boolean enviarPix(String valor, String chave) {
+        String sql = "INSERT INTO transacoes (tipo, valor, data, conta_id) VALUES ('PIX', " + valor + ", '" + new Date().toString() + "', 1)";
+        Cursor cursor = super.getReadableDatabase().rawQuery(sql, null);
+        cursor.moveToFirst();
+        if(cursor.getCount() == 0) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -47,6 +63,8 @@ public class TransacoesRepository extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+        String sql = "DROP TABLE IF EXISTS transacoes";
+        sqLiteDatabase.execSQL(sql);
+        this.onCreate(sqLiteDatabase);
     }
 }

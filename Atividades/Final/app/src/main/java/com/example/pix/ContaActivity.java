@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Date;
 
 public class ContaActivity extends AppCompatActivity {
@@ -23,9 +22,7 @@ public class ContaActivity extends AppCompatActivity {
     }
 
     public void onDeposit(View view) {
-        EditText valorOperacoView = findViewById(R.id.valor);
-        String valorOperacaoString = valorOperacoView.getText().toString();
-        valorOperacoView.setText("");
+        String valorOperacaoString = this.getValorOperacao();
         if(!this.validarValor(valorOperacaoString)) return;
         this.contaRepository.depositar(valorOperacaoString);
         this.transacoesRepository.criarTransacao("DEPOSITO", valorOperacaoString, new Date().toString());
@@ -33,13 +30,9 @@ public class ContaActivity extends AppCompatActivity {
     }
 
     public void onWithdraw(View view) {
-        EditText valorOperacoView = findViewById(R.id.valor);
-        String valorOperacaoString = valorOperacoView.getText().toString();
-        valorOperacoView.setText("");
+        String valorOperacaoString = this.getValorOperacao();
         Double saldoAtual = this.contaRepository.getSaldo();
-
         if(!this.validarValor(valorOperacaoString)) return;
-
         if(saldoAtual < Double.parseDouble(valorOperacaoString)) {
             Toast.makeText(this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
             return;
@@ -63,6 +56,13 @@ public class ContaActivity extends AppCompatActivity {
         TextView saldoView = findViewById(R.id.saldo);
         String saldoFormatado = String.format(getString(R.string.saldo), this.contaRepository.getSaldo());
         saldoView.setText(saldoFormatado);
+    }
+
+    public String getValorOperacao() {
+        EditText valorOperacoView = findViewById(R.id.valor);
+        String valorOperacaoString = valorOperacoView.getText().toString();
+        valorOperacoView.setText("");
+        return valorOperacaoString;
     }
 
     public boolean validarValor(String valor) {
