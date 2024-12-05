@@ -21,11 +21,18 @@ public class ContaActivity extends AppCompatActivity {
         this.updateSaldo();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.updateSaldo();
+    }
+
     public void onDeposit(View view) {
         String valorOperacaoString = this.getValorOperacao();
         if(!this.validarValor(valorOperacaoString)) return;
         this.contaRepository.depositar(valorOperacaoString);
-        this.transacoesRepository.criarTransacao("DEPOSITO", valorOperacaoString, new Date().toString());
+        TransacoesEntity transacao = new TransacoesEntity("DEPOSITO", Double.parseDouble(valorOperacaoString), new Date().toString(), this.contaRepository.getSaldo());
+        this.transacoesRepository.criarTransacao(transacao);
         this.updateSaldo();
     }
 
@@ -38,7 +45,8 @@ public class ContaActivity extends AppCompatActivity {
             return;
         }
         this.contaRepository.retirar(valorOperacaoString);
-        this.transacoesRepository.criarTransacao("RETIRADA", valorOperacaoString, new Date().toString());
+        TransacoesEntity transacao = new TransacoesEntity("RETIRADA", Double.parseDouble(valorOperacaoString), new Date().toString(), this.contaRepository.getSaldo());
+        this.transacoesRepository.criarTransacao(transacao);
         this.updateSaldo();
     }
 

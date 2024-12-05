@@ -10,9 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PixActivity extends AppCompatActivity {
 
@@ -80,7 +82,7 @@ public class PixActivity extends AppCompatActivity {
                         this.pixRepository.cadastrarChave(novaChave);
                         this.listaChavesPIX.add(novaChave);
                         this.adapter.notifyDataSetChanged();
-                        Toast.makeText(this, "Chave cadastrada com sucesso!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Chave cadastrada com sucesso!", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(this, "Chave inválida!", Toast.LENGTH_SHORT).show();
                     }
@@ -102,17 +104,7 @@ public class PixActivity extends AppCompatActivity {
     }
 
     private boolean isCPFValido(String cpf) {
-        if (cpf.length() != 11 || !cpf.matches("\\d+")) return false;
-        int[] pesos = {10, 9, 8, 7, 6, 5, 4, 3, 2};
-        int soma = 0;
-        for (int i = 0; i < 9; i++) soma += (cpf.charAt(i) - '0') * pesos[i];
-        int digito1 = 11 - (soma % 11);
-        digito1 = (digito1 >= 10) ? 0 : digito1;
-        soma = 0;
-        for (int i = 0; i < 10; i++) soma += (cpf.charAt(i) - '0') * (pesos[i] + 1);
-        int digito2 = 11 - (soma % 11);
-        digito2 = (digito2 >= 10) ? 0 : digito2;
-        return digito1 == (cpf.charAt(9) - '0') && digito2 == (cpf.charAt(10) - '0');
+        return cpf.matches("\\d{11}");
     }
 
     public void removerChave(int position) {
@@ -124,9 +116,14 @@ public class PixActivity extends AppCompatActivity {
 
     public void enviarPix(View view) {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_enviar_pix, null);
-
+        TextView saldoView = dialogView.findViewById(R.id.text_saldo);
+        saldoView.setText(String.format("Saldo: R$ %.2f", this.contaRepository.getSaldo()));
         EditText inputChaveDestino = dialogView.findViewById(R.id.input_chave_destino);
         EditText inputValor = dialogView.findViewById(R.id.input_valor);
+        if(this.pixRepository.listarChaves().isEmpty()) {
+            Toast.makeText(this, "Você deve ter pelo menos 1 chave cadastrada para enviar um PIX", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         new AlertDialog.Builder(this)
                 .setTitle("Enviar PIX")
@@ -159,6 +156,10 @@ public class PixActivity extends AppCompatActivity {
                 Toast.makeText(this, "O valor deve ser maior que zero.", Toast.LENGTH_SHORT).show();
                 return false;
             }
+            if(valor > this.contaRepository.getSaldo()) {
+                Toast.makeText(this, "Saldo insuficiente.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Valor inválido.", Toast.LENGTH_SHORT).show();
             return false;
@@ -167,8 +168,9 @@ public class PixActivity extends AppCompatActivity {
     }
 
     private void realizarEnvioPix(String chaveDestino, double valor) {
-        boolean sucesso = this.transacoesRepository.enviarPix(chaveDestino, String.valueOf(valor));
-        this.contaRepository.retirar(String.valueOf(valor));
+        boolean sucesso = this.contaRepository.retirar(String.valueOf(valor));
+        TransacoesEntity transacao = new TransacoesEntity("PIX", valor, new Date().toString(), this.contaRepository.getSaldo());
+        this.transacoesRepository.criarTransacao(transacao);
         if (sucesso) {
             Toast.makeText(this, "PIX enviado com sucesso!", Toast.LENGTH_SHORT).show();
         } else {

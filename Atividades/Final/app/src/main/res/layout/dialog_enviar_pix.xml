@@ -5,12 +5,21 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:id="@+id/text_saldo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Saldo: R$ %.2f"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
     <EditText
         android:id="@+id/input_chave_destino"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Chave PIX do destinatário"
-        android:inputType="text"
+        android:inputType="number"
         android:maxLines="1"
         android:ems="10" />
 

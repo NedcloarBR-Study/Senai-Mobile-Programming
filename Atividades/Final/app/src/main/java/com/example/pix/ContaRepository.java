@@ -12,14 +12,24 @@ public class ContaRepository extends SQLiteOpenHelper {
         super(context, "Conta_Repository", null, 1);
     }
 
-    public void depositar(String valor) {
+    public boolean depositar(String valor) {
         String sql = "UPDATE conta SET saldo = saldo + ? WHERE id = 1";
-        super.getWritableDatabase().execSQL(sql, new Object[]{valor});
+        try {
+            super.getWritableDatabase().execSQL(sql, new Object[]{valor});
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public void retirar(String valor) {
+    public boolean retirar(String valor) {
         String sql = "UPDATE conta SET saldo = saldo - ? WHERE id = 1";
-        super.getWritableDatabase().execSQL(sql, new Object[]{valor});
+        try {
+            super.getWritableDatabase().execSQL(sql, new Object[]{valor});
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public Double getSaldo() {

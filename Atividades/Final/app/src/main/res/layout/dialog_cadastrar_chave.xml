@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Digite a chave PIX"
-        android:inputType="text"
+        android:inputType="number"
         android:maxLines="1"
         android:ems="10" />
 
